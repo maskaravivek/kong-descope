@@ -1,0 +1,13 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: openid-connect-example
+plugin: openid-connect
+config:
+  auth_methods:
+  - authorization_code
+  - session
+  issuer: https://api.descope.com
+  client_id: "UDJncjVJbHd5V2FUaUpKODdzMGhCd3dza1g3RTpLMmd0bUhZTExvblEyUUJzVDNwZ3pZaDFPbTR1"
+  client_secret: "K2gtmHYLLonQ2QBsT3pgzYh1Om4uxFbaAgg0ePtZgTAdmvAjcu54ZyMkD4fN0kMI209hDaj"
+  response_mode: form_post
