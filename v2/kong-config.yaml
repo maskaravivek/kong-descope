@@ -1,0 +1,22 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: oidc
+  namespace: kong
+plugin: oidc
+config:
+  client_id: "UDJncjVJbHd5V2FUaUpKODdzMGhCd3dza1g3RTpLMmd0bUhZTExvblEyUUJzVDNwZ3pZaDFPbTR1"
+  client_secret: "K2gtmHYLLonQ2QBsT3pgzYh1Om4uxFbaAgg0ePtZgTAdmvAjcu54ZyMkD4fN0kMI209hDaj"
+  discovery: "https://api.descope.com/P2gr5IlwyWaTiJJ87s0hBwwskX7E/.well-known/openid-configuration"
+  introspection_endpoint: "https://api.descope.com/P2gr5IlwyWaTiJJ87s0hBwwskX7E/token/introspection"
+  bearer_only: "yes"
+  realm: "kong"
+  session_secret: ""
+---
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: oidc-consumer
+  namespace: kong
+username: oidc-user
+custom_id: oidc-user-id

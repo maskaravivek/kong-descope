@@ -1,0 +1,10 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongIngress
+metadata:
+  name: kong
+  namespace: kong
+spec:
+  type: ingress
+  config:
+    plugins:
+      - name: openid-connect

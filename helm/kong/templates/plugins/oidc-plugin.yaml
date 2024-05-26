@@ -1,0 +1,24 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: oidc-auth
+config:
+  issuer: https://api.descope.com
+  client_id: 
+  - "UDJncjVJbHd5V2FUaUpKODdzMGhCd3dza1g3RTpLMmd0bUhZTExvblEyUUJzVDNwZ3pZaDFPbTR1"
+  client_auth: 
+  - "K2gtmHYLLonQ2QBsT3pgzYh1Om4uxFbaAgg0ePtZgTAdmvAjcu54ZyMkD4fN0kMI209hDaj"
+  redirect_uri:
+  - http://echoserver.local/echo
+  auth_methods:
+  - bearer
+  - password
+  client_credentials_param_type:
+  - header
+  - body
+  - basic_auth
+  introspection_endpoint_auth_methods:
+  - client_secret_basic
+  - client_secret_post
+  - none
+plugin: openid-connect

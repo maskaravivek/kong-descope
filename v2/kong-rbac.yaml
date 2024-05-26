@@ -1,0 +1,29 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: rbac
+  namespace: kong
+plugin: rbac
+config:
+  default: deny
+  roles:
+    - name: admin
+      description: Admin role
+      endpoints:
+        - name: admin-endpoints
+          paths: ["/admin"]
+          methods: ["GET", "POST"]
+    - name: user
+      description: User role
+      endpoints:
+        - name: user-endpoints
+          paths: ["/user"]
+          methods: ["GET"]
+---
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: rbac-consumer
+  namespace: kong
+username: rbac-user
+custom_id: rbac-user-id
