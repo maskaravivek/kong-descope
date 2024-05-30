@@ -1,26 +1,12 @@
 # Kong Gateway on k8s
 
-This project deploys Kong as a reverse-proxy gateway on minikube.
+```
+helm install kong kong/ingress -n kong --values ./values.yaml
 
-It services a single backend application, an [echo-server](https://github.com/Ealenn/Echo-Server).
+kubectl apply -f echo.kube.yaml       
 
-## Requirements
+kubectl apply -f plugin.yaml --namespace echoserver
 
-- helm v3
-- minikube
+kubectl patch ingress echoserver -p '{"metadata":{"annotations":{"konghq.com/plugins":"oidc-auth"}}}' --namespace echoserver
+```
 
-## Instructions
-
-While `cd`'d into this directory...
-
-Run `minikube start` to start a new cluster.
-
-Install the kong implementation with  `make start`.
-
-Make requests to the Kong gateway through `localhost:80`.
-
-The echo-server is found at `localhost/echo`.
-
-When finished, clean up everything with `make stop`.
-
-Kill the cluster with `minikube stop`.

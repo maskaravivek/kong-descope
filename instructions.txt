@@ -1,0 +1,62 @@
+Instructions:
+
+1. Complete Prerequisites
+- Kubernetes cluster with load balancer: Konnect is compatible with all distributions of Kubernetes, including Minikube, AKS, EKS, GKE and OpenShift.
+- kubectl or oc access: You have kubectl or oc (if working with OpenShift) installed and configured to communicate to your Kubernetes TLS.
+- Helm 3 (https://helm.sh/docs/intro/install/) is installed
+
+2. Set up Helm
+- On your local machine, create a namespace in your Kubernetes cluster and pull down the kong Helm repo.
+
+2a. Create a namespace:
+kubectl create namespace kong
+
+2b. Add the Kong charts repository:
+helm repo add kong https://charts.konghq.com
+
+2c. Update Helm:
+helm repo update
+
+3. Copy and Save Certificate and Key
+- Copy and save them to your local machine as tls.crt and tls.key.
+- Next, run following command to create a Kubernetes secret containing the certificates that we will reference from the Helm chart values-controller.yaml:
+
+  kubectl create secret tls konnect-client-tls -n kong --cert=/{PATH_TO_FILE}/tls.crt --key=/{PATH_TO_FILE}/tls.key
+
+4. Install the KIC
+- Copy and paste the following configuration into the Helm chart values-controller.yaml on your local machine:
+
+  controller:
+  ingressController:
+    image:
+      tag: "3.1"
+    env:
+      feature_gates: "FillIDs=true"
+    konnect:
+      license:
+        enabled: true
+      enabled: true
+      runtimeGroupID: "24dcf0ca-3d0f-4503-ad77-d0f44e2375f0"
+      tlsClientSecretName: konnect-client-tls
+      apiHostname: "us.kic.api.konghq.com"
+
+gateway:
+  image:
+    repository: kong/kong-gateway
+    "tag: 3.5"
+  env:
+    konnect_mode: "on"
+    vitals: "off"
+    cluster_mtls: pki
+    cluster_telemetry_endpoint: "02fd5d36cc.us.tp0.konghq.com:443"
+    cluster_telemetry_server_name: "02fd5d36cc.us.tp0.konghq.com"
+    cluster_cert: /etc/secrets/konnect-client-tls/tls.crt
+    cluster_cert_key: /etc/secrets/konnect-client-tls/tls.key
+    lua_ssl_trusted_certificate: system
+
+  secretVolumes:
+    - konnect-client-tls
+
+- Next, run the following command to install the KIC:
+
+  helm install kong kong/ingress -n kong --values ./values.yaml

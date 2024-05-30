@@ -1,0 +1,19 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: oidc-auth
+config:
+  issuer: https://api.descope.com/P2gr5IlwyWaTiJJ87s0hBwwskX7E
+  client_id:
+  - P2gr5IlwyWaTiJJ87s0hBwwskX7E
+  client_secret:
+  - K2hASUChoLhCPHQFljT4rxqwbIefQwEHLmvkgylpTx3dFDMYw88iTM13pPAsn2kfKmBIbEw
+  redirect_uri:
+  - http://127.0.0.1.nip.io/echo
+  auth_methods:
+  - authorization_code
+  display_errors: true
+  scope: "openid profile email"
+  token_endpoint_auth_method: "client_secret_post"
+
+plugin: openid-connect
