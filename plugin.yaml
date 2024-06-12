@@ -13,7 +13,8 @@ config:
   auth_methods:
   - authorization_code
   display_errors: true
-  scope: "openid profile email"
   token_endpoint_auth_method: "client_secret_post"
-
+  scopes:
+  - openid
+  - descope.custom_claims
 plugin: openid-connect
