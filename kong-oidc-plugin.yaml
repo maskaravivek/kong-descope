@@ -17,4 +17,9 @@ config:
   scopes:
   - openid
   - descope.custom_claims
+  filters:
+    - claim: groups
+      match: .*
+      value_from: claims
+      type: access_token
 plugin: openid-connect
